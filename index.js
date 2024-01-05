@@ -4,6 +4,7 @@ const mysql = require("mysql2");
 
 // DATA
 let allDepartments = [];
+let allRoles = [];
 
 // Connect to database
 const db = mysql.createConnection({
@@ -131,6 +132,30 @@ async function addRole() {
   init(); //runs the prompt again
 }
 
+function viewAllRoles() {
+  //viewAllRoles shows all roles from database employee_db
+
+  db.query(
+    `SELECT role.id, role.title, department.name AS department, role.salary
+  FROM role
+  JOIN department ON role.department_id = department.id
+  ORDER BY role.id;`,
+    function (err, results) {
+      if (err) {
+        console.error(err);
+      } else {
+        console.table(results);
+        saveAllRoles(results);
+      }
+    }
+  );
+  init(); //runs the prompt again
+}
+
+function saveAllRoles(roles) {
+  allRoles = roles;
+}
+
 function addEmployee() {
   console.log("want to add an employee");
   //asks for first name
@@ -142,10 +167,6 @@ function addEmployee() {
 function viewAllEmployees() {
   console.log("want to view all employees");
   init();
-}
-
-function viewAllRoles() {
-  console.log("want to view all roles");
 }
 
 function updateEmployeeRole() {
