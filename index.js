@@ -197,7 +197,7 @@ async function addEmployee() {
       choices: managerChoices,
     },
   ]);
-  console.log(employeeInfo);
+  // console.log(employeeInfo);
 
   //find the role_id that the user chose
   var roleId;
