@@ -165,10 +165,11 @@ async function addEmployee() {
     roleChoices[i] = allRoles[i].title;
   }
 
-  let managerChoices = [];
+  let managerChoices = ["none"];
   for (let i = 0; i < allEmployees.length; i++) {
-    managerChoices[i] =
-      allEmployees[i].first_name + " " + allEmployees[i].last_name;
+    managerChoices.push(
+      allEmployees[i].first_name + " " + allEmployees[i].last_name
+    );
   }
 
   //prompt the user for the necessary info
