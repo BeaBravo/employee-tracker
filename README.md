@@ -37,7 +37,7 @@ Answer the prompt as they are displayed.
 
 The following video shows an example of the application being used from the command line:
 
-[![A video thumbnail shows the command-line employee management application with a play button overlaying the view.](./Assets/Screenshot.png)](https://drive.google.com/file/d/17RuJAHiZMxxITd6Qbg9veeJ8emBV2Z0-/view)
+[![A video thumbnail shows the command-line employee management application with a play button overlaying the view.](./assets/Screenshot.png)](https://drive.google.com/file/d/17RuJAHiZMxxITd6Qbg9veeJ8emBV2Z0-/view)
 
 ## Credits
 
