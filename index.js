@@ -36,18 +36,28 @@ function getUsersChoice() {
   return inquirer.prompt(options);
 }
 
-function addDepartment() {
-  console.log("want to add department");
-  //addDepartment adds the department the user wants to add using db.query
-  //   db.query(
-  //     "INSERT INTO department (name) VALUES (?);",
-  //     department,
-  //     (err, results) => {
-  //       if (err) {
-  //         console.error(err);
-  //       }
-  //     }
-  //   );
+async function addDepartment() {
+  //addDepartment adds the department the user wants to add using db.query and prompt to get more info from the user
+  //get name of the department with a prompt
+  const getDepartment = await inquirer.prompt([
+    {
+      type: "input",
+      message: "What is the name of the department?",
+      name: "name",
+    },
+  ]);
+
+  const department = getDepartment.name;
+  db.query(
+    "INSERT INTO department (name) VALUES (?);",
+    department,
+    (err, results) => {
+      if (err) {
+        console.error(err);
+      }
+    }
+  );
+  init(); //runs the prompt again
 }
 
 function viewAllDepartments() {
