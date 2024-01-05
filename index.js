@@ -3,6 +3,7 @@ const inquirer = require("inquirer");
 const mysql = require("mysql2");
 
 // DATA
+let allDepartments = [];
 
 // Connect to database
 const db = mysql.createConnection({
@@ -61,25 +62,73 @@ async function addDepartment() {
 }
 
 function viewAllDepartments() {
-  console.log("want to view all departments");
-  //shows all departments from database employee_db
-  //   db.query(
-  //     "SELECT department.id, department.name AS department_name FROM department;",
-  //     function (err, results) {
-  //       if (err) {
-  //         console.error(err);
-  //       }
-  //       console.table(results);
-  //     }
-  //   );
+  // viewAllDepartments shows all departments from database employee_db
+
+  db.query(
+    "SELECT department.id, department.name AS department_name FROM department;",
+    function (err, results) {
+      if (err) {
+        console.error(err);
+      } else {
+        console.table(results);
+        saveAllDepartments(results);
+      }
+    }
+  );
+
+  init(); //runs the prompt again
 }
 
-function addRole() {
-  //prompts to ask the name of the role
-  //asks for salary of the role
-  //asks which department the role belongs to?
-  //will need to call viewAllDepartments to get the most updated list
-  console.log("want to add role");
+function saveAllDepartments(departments) {
+  //assigns departments to global variable. This is used in the viewAllDepartments() function
+  allDepartments = departments;
+}
+
+async function addRole() {
+  //manipulate allDepartment array to get choices for the prompt
+  let departmentChoices = [];
+  for (let i = 0; i < allDepartments.length; i++) {
+    departmentChoices[i] = allDepartments[i].department_name;
+  }
+  //prompt the user for more info on the role
+  const role = await inquirer.prompt([
+    {
+      type: "input",
+      message: "What is the name of the role?",
+      name: "name",
+    },
+    {
+      type: "input",
+      message: "What is the salary of the role?",
+      name: "salary",
+    },
+    {
+      type: "list",
+      message: "Which department does the role belong to?",
+      name: "department",
+      choices: departmentChoices,
+    },
+  ]);
+
+  //grab the role id depending on the userschoice of department
+  var roleId;
+  for (let i = 0; i < allDepartments.length; i++) {
+    if (role.department === allDepartments[i].department_name) {
+      roleId = allDepartments[i].id;
+    }
+  }
+
+  //db.query to add the role to the db
+  db.query(
+    "INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?);",
+    [role.name, role.salary, roleId],
+    (err, results) => {
+      if (err) {
+        console.error(err);
+      }
+    }
+  );
+  init(); //runs the prompt again
 }
 
 function addEmployee() {

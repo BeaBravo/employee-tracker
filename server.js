@@ -1,29 +1,22 @@
-// DEPENDENCIES
-// const { addDepartment } = require("./lib/document"); //helper functions
-const mysql = require("mysql2");
+const allDepartments = [
+  { id: 1, department_name: "Engineering" },
+  { id: 2, department_name: "Finance" },
+  { id: 3, department_name: "Legal" },
+  { id: 4, department_name: "Sales" },
+  { id: 5, department_name: "Service" },
+  { id: 6, department_name: "Human Resources" },
+];
 
-// DATA
+// let formattedDepartments = [];
+// for (let i = 0; i < allDepartments.length; i++) {
+//   formattedDepartments[i] = allDepartments[i].department_name;
+// }
+// console.log(formattedDepartments);
 
-// Connect to database
-const db = mysql.createConnection(
-  {
-    host: "localhost",
-    // MySQL username,
-    user: "root",
-    // MySQL password
-    password: "MySQLpassword",
-    database: "employee_db",
-  },
-  console.log("connected to employee_db")
-);
-
-//shows all departments from database employee_db
-db.execute(
-  "SELECT department.id, department.name AS departmentName FROM department;",
-  function (err, results) {
-    if (err) {
-      console.error(err);
-    }
-    console.log(results);
+var roleId = 0;
+for (let i = 0; i < allDepartments.length; i++) {
+  if ("Human Resources" === allDepartments[i].department_name) {
+    roleId = allDepartments[i].id;
   }
-);
+}
+console.log(roleId);
